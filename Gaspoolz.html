@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaspoolz Clan Point Blank</title>
+  <style>
+    /* RESET */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(180deg, #0b0b0b, #1a1a1a);
+      color: #fff;
+      overflow-x: hidden;
+      height: 100vh;
+    }
+
+    /* BACKGROUND VIDEO STYLE */
+    video.bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      filter: brightness(0.3);
+    }
+
+    /* BACKGROUND PARTICLE */
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header img {
+      height: 120px;
+      filter: drop-shadow(0 0 15px #00f0ff);
+    }
+
+    header h1 {
+      color: #00f0ff;
+      font-size: 2.5rem;
+      text-shadow: 0 0 20px #00eaff;
+      margin-top: 10px;
+    }
+
+    header p {
+      color: #ccc;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+      background: rgba(20, 20, 20, 0.85);
+      border-radius: 20px;
+      box-shadow: 0 0 20px #00eaff33;
+      backdrop-filter: blur(6px);
+    }
+
+    h2 {
+      text-align: center;
+      color: #00eaff;
+      text-shadow: 0 0 10px #00eaff;
+      margin-bottom: 20px;
+    }
+
+    .description {
+      text-align: center;
+      line-height: 1.8;
+      color: #ddd;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+    }
+
+    /* GALLERY */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      transition: 0.4s;
+      border: 2px solid #00eaff33;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #00f0ff;
+    }
+
+    /* MEMBERS */
+    .members {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .member-card {
+      background: rgba(40, 40, 40, 0.9);
+      border: 1px solid #00f0ff44;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .member-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px #00f0ff;
+    }
+
+    .member-name { color: #00eaff; font-weight: bold; }
+    .member-role { color: #bbb; font-size: 0.9rem; }
+
+    /* MARQUEE TEXT */
+    .schedule {
+      background: rgba(15, 15, 15, 0.95);
+      border-top: 2px solid #00f0ff;
+      border-bottom: 2px solid #00f0ff;
+      padding: 10px 0;
+      margin-top: 40px;
+      box-shadow: 0 0 20px #00eaff55;
+    }
+
+    .schedule marquee {
+      color: #00f0ff;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-shadow: 0 0 10px #00f0ff, 0 0 20px #0099ff;
+      letter-spacing: 1px;
+      animation: glowPulse 2s infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 15px #00eaff, 0 0 30px #0099ff; }
+      to { text-shadow: 0 0 30px #00ffff, 0 0 60px #00aaff; }
+    }
+
+    /* JOIN BUTTON LED */
+    .join-btn {
+      display: block;
+      width: fit-content;
+      margin: 50px auto;
+      padding: 15px 35px;
+      background: #00eaff;
+      color: #000;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      font-size: 1.1rem;
+      animation: ledBlink 1.5s infinite alternate;
+      transition: 0.3s;
+    }
+
+    @keyframes ledBlink {
+      0% { box-shadow: 0 0 15px #00eaff, 0 0 30px #00ccff; }
+      100% { box-shadow: 0 0 35px #00eaff, 0 0 70px #00ccff; }
+    }
+
+    .join-btn:hover {
+      transform: scale(1.1);
+    }
+
+    footer {
+      text-align: center;
+      margin: 40px 0 20px;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- BACKGROUND PARTICLE CANVAS -->
+  <canvas id="particles"></canvas>
+
+  <!-- BACKGROUND VIDEO (OPSIONAL) -->
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="bg-video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- AUTOPLAY BACKGROUND MUSIC -->
+  <audio id="bgmusic" src="Backsound.mp3" autoplay loop></audio>
+
+  <header>
+    <img src="Logo-Gaspoolz.jpeg" alt="Logo Gaspoolz" />
+    <h1>Gaspoolz Clan Point Blank</h1>
+    <p>Jujur • Sportif • Santai • Tanpa Drama</p>
+  </header>
+
+  <div class="container">
+    <h2>Tentang Kami</h2>
+    <p class="description">
+      Selamat datang di <strong>Gaspoolz Clan Point Blank</strong> — komunitas gamer yang menjunjung tinggi
+      kejujuran, kesportifan, dan kekompakan! Semua dikemas santai, penuh tawa, tanpa baper dan drama.
+    </p>
+
+    <h2>Galeri Pertandingan</h2>
+    <div class="gallery">
+      <img src="WhatsApp Image 2025-10-25 at 11.21.58.jpeg" alt="">
+      <img src="WhatsApp Image 2025-10-25 at 11.22.52.jpeg" alt="">
+      <img src="WhatsApp Image 2025-10-25 at 11.23.39.jpeg" alt="">
+    </div>
+
+    <h2>Anggota Gaspoolz</h2>
+    <div class="members">
+      <div class="member-card"><div class="member-name">Siddieq Akbar</div><div class="member-role">Master</div></div>
+      <div class="member-card"><div class="member-name">Beben</div><div class="member-role">Staff</div></div>
+      <div class="member-card"><div class="member-name">Al Juneddi</div><div class="member-role">Staff</div></div>
+      <div class="member-card"><div class="member-name">Farel</div><div class="member-role">Staff</div></div>
+      <div class="member-card"><div class="member-name">Anggi Yasena</div><div class="member-role">Member</div></div>
+      <div class="member-card"><div class="member-name">Sahala</div><div class="member-role">Member</div></div>
+      <div class="member-card"><div class="member-name">Riski</div><div class="member-role">Member</div></div>
+      <div class="member-card"><div class="member-name">Hanif Ilhammullah</div><div class="member-role">Member</div></div>
+      <div class="member-card"><div class="member-name">Hafid</div><div class="member-role">Member</div></div>
+      <div class="member-card"><div class="member-name">Muhammad Irghi</div><div class="member-role">Member</div></div>
+    </div>
+
+    <div class="schedule">
+      <marquee scrollamount="6">
+        ⚔️ Jadwal Gaspoolz: Mabar / Clan War — Setiap Sabtu & Minggu malam mulai jam 21:00 WIB — Siapkan timmu! ⚔️
+      </marquee>
+    </div>
+
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdDBfyrlEM7vn3uk24_fKVTsDlC3_zylToEOs0f5TG4Zqbd1Q/viewform?usp=sharing"
+      class="join-btn" target="_blank">⚡ Daftar Anggota Baru ⚡</a>
+  </div>
+
+  <footer>
+    © 2025 Gaspoolz Clan Point Blank — Powered by PB Warriors Indonesia
+  </footer>
+
+  <!-- PARTICLE SCRIPT -->
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    const particles = Array.from({ length: 100 }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 2,
+      dx: (Math.random() - 0.5) * 0.8,
+      dy: (Math.random() - 0.5) * 0.8
+    }));
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#00f0ff';
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+
+    // 🧠 Auto-play fix untuk Chrome/Safari
+    document.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('bgmusic');
+      audio.volume = 0.5;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          document.body.addEventListener('click', () => {
+            audio.play();
+          }, { once: true });
+        });
+      }
+    });
+  </script>
+</body>
+</html>
